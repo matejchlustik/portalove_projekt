@@ -87,4 +87,40 @@ class DB {
             return false;
         }
     }
+
+    public function getCategories() {
+        $categories = [];
+        $sql = "SELECT * FROM category";
+
+        try {
+            $query = $this->connection->query($sql);
+            while ($row = $query->fetch()) {
+                $categories[$row['category']] = $row['id'];
+            }
+            return  $categories;
+        } catch (\PDOException $e) {
+            return [];
+        }
+    }
+
+    public function addPost($formData) {
+
+        $postSql = "INSERT INTO post(title,content,img,created_at,updated_at,posted_by)
+                    VALUE('{$formData['title']}','{$formData['content']}','{$formData['img']}', NOW(), NOW(), {$_SESSION['user_id']} )";
+
+        try {
+            $this->connection->query($postSql);
+            $postId = $this->connection->lastInsertId();
+            unset($formData['title']);
+            unset($formData['content']);
+            unset($formData['img']);
+            foreach ($formData as $key => $value) {
+                $categorySql = "INSERT INTO post_category(post_id, category_id) VALUE('{$postId}', '{$key}')";
+                $this->connection->query($categorySql);
+            }
+            return true;
+        } catch (\PDOException $e) {
+            return false;
+        }
+    }
 }

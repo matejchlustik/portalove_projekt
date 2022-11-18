@@ -30,22 +30,7 @@ https://templatemo.com/tm-553-xtra-blog
             </div>
             <nav class="tm-nav" id="tm-nav">
                 <ul>
-                    <li class="tm-nav-item"><a href="index.php" class="tm-nav-link">
-                            <i class="fas fa-home"></i>
-                            Blog Home
-                        </a></li>
-                    <li class="tm-nav-item"><a href="post.php" class="tm-nav-link">
-                            <i class="fas fa-pen"></i>
-                            Single Post
-                        </a></li>
-                    <li class="tm-nav-item active"><a href="about.php" class="tm-nav-link">
-                            <i class="fas fa-users"></i>
-                            About Xtra
-                        </a></li>
-                    <li class="tm-nav-item"><a href="contact.php" class="tm-nav-link">
-                            <i class="far fa-comments"></i>
-                            Contact Us
-                        </a></li>
+                    <?php include_once('nav_bar.php'); ?>
                 </ul>
             </nav>
             <div class="tm-mb-65">

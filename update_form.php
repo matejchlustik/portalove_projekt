@@ -3,9 +3,17 @@ include_once "db_connect.php";
 if (isset($_SESSION['auth']) && $_SESSION['auth'] !== true) {
     header('Location: index.php');
 }
-
 $db = $GLOBALS['db'];
+
+if (!isset($_GET['id'])) {
+    header('Location: profile.php');
+}
+
+
 $categories = $db->getCategories();
+$post = $db->getPost($_GET['id']);
+
+
 ?>
 
 
@@ -58,26 +66,28 @@ $categories = $db->getCategories();
     </header>
 
     <div style="display:flex;align-items:center;justify-content:center;margin: 100px auto;flex-direction:column;width:65%">
-        <form method="POST" action="submit_post.php" class="mb-5" style="width:40%;margin:0 auto;">
+        <form method="POST" action="update.php?id=<?php echo $_GET['id'] ?>" class="mb-5" style="width:40%;margin:0 auto;">
             <h2 class="tm-color-primary tm-post-title mb-4">Add Post</h2>
             <div class="mb-4">
                 <label class="col-sm-3 col-form-label  tm-color-primary" style="padding-left:0;max-width:100%;">Title</label>
-                <input class="form-control" name="title" type="text" required>
+                <input class="form-control" name="title" type="text" value="<?php echo $post['title'] ?>" required>
             </div>
             <div class="mb-4">
                 <label class="col-sm-3 col-form-label  tm-color-primary" style="padding-left:0;max-width:100%;">Image</label>
-                <input class="form-control" name="img" type="text" required>
+                <input class="form-control" name="img" type="text" value="<?php echo $post['img'] ?>" required>
             </div>
             <div class="mb-4">
                 <label class="col-sm-3 col-form-label  tm-color-primary" style="padding-left:0;max-width:100%;">Content</label>
-                <textarea class="form-control" name="content" rows="6" required></textarea>
+                <textarea class="form-control" name="content" rows="6" required><?php echo $post['content'] ?></textarea>
             </div>
             <div class="mb-4">
                 <h5 class="tm-color-primary mb-4">Categories</h5>
                 <?php foreach ($categories as $categoryName => $categoryId) : ?>
                     <div class="mb-4" style="display:flex;justify-content:space-between;">
                         <label class="col-form-label  tm-color-primary" style="padding-left:0;max-width:100%;"><?php echo $categoryName ?></label>
-                        <input class="tm-btn tm-btn-primary tm-btn-small" type="checkbox" name="<?php echo "{$categoryId}" ?>" style="margin-right:20px;">
+                        <input class="tm-btn tm-btn-primary tm-btn-small" type="checkbox" name="<?php echo "{$categoryId}" ?>" style="margin-right:20px;" <?php foreach ($post['categories'] as $postCategory) {
+                                                                                                                                                                if ($postCategory === $categoryName) echo "checked";
+                                                                                                                                                            } ?>>
                     </div>
                 <?php endforeach; ?>
             </div>

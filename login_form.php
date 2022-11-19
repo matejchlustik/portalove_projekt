@@ -1,5 +1,9 @@
 <?php
 include_once "db_connect.php";
+if (isset($_SESSION['auth']) && $_SESSION['auth'] === true) {
+    header('Location: index.php');
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">

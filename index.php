@@ -66,7 +66,6 @@ https://templatemo.com/tm-553-xtra-blog
                 </div>
             </div>
             <div class="row tm-row">
-                <!-- sem post_list -->
                 <?php include_once("posts_list.php") ?>
             </div>
             <div class="row tm-row tm-mt-100 tm-mb-75">

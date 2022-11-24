@@ -278,4 +278,21 @@ class DB {
             return false;
         }
     }
+
+    public function getCommentCounts() {
+        $comment_counts = [];
+        $sql = "SELECT COUNT(comment.id) AS count, post.id FROM `post` 
+                LEFT JOIN comment ON comment.post = post.id
+                GROUP BY post.id";
+
+        try {
+            $query = $this->connection->query($sql);
+            while ($row = $query->fetch(\PDO::FETCH_ASSOC)) {
+                $comment_counts[$row['id']] = $row['count'];
+            }
+            return $comment_counts;
+        } catch (\PDOException $e) {
+            return false;
+        }
+    }
 }

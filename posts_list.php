@@ -3,7 +3,7 @@ include_once "db_connect.php";
 $db = $GLOBALS['db'];
 
 $posts = $db->getPosts();
-
+$comment_counts = $db->getCommentCounts();
 
 ?>
 <?php foreach ($posts as $key => $post) : ?>
@@ -33,7 +33,11 @@ $posts = $db->getPosts();
         </div>
         <hr>
         <div class="d-flex justify-content-between">
-            <span>36 comments</span>
+            <span>
+                <?php foreach ($comment_counts as $postId => $count) {
+                    if ($postId === $key) echo $count, " comments";
+                } ?>
+            </span>
             <span>by <?php echo $post['first_name'], " ", $post['last_name'] ?></span>
         </div>
     </article>
